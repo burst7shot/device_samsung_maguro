@@ -106,7 +106,7 @@ doHq=0
 doBoost=0
 
 # 進取內存管理
-doMin=off
+# doMin=off
 
 # 關閉系統記錄功能
 doLog=on
@@ -129,7 +129,7 @@ fi
 # SD卡讀取提速 [sd card speed boost]
 if busybox [ "$doSdcard" = ".on" ]; then
 	if [ -e /sys/devices/virtual/bdi/179:0/read_ahead_kb ]; then
-	echo "2048" > /sys/devices/virtual/bdi/179:0/read_ahead_kb
+	echo "1024" > /sys/devices/virtual/bdi/179:0/read_ahead_kb
 	fi
 fi
 
@@ -216,13 +216,13 @@ if busybox [ "$doSon" = ".on" ]; then
 fi
 
 # GPU 超頻
-if busybox [ "$gpuOc" = "307" ]; then
-	echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc
-elif busybox [ "$gpuOc" = "384" ]; then
-	echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc
-elif busybox [ "$gpuOc" = "512" ]; then
-	echo "2" > /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc
-fi
+#if busybox [ "$gpuOc" = "307" ]; then
+#	echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc
+#elif busybox [ "$gpuOc" = "384" ]; then
+#	echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc
+#elif busybox [ "$gpuOc" = "512" ]; then
+#	echo "2" > /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc
+#fi
 
 # 色彩倍頻及保險開關
 #if busybox [ "$noSafety" = "1" ]; then
@@ -247,17 +247,17 @@ fi
 # echo "$vibValue" > /sys/class/misc/vibratorcontrol/vibrator_strength
 
 # KSM管理
-echo "1" >/sys/kernel/mm/ksm/run
+# echo "0" >/sys/kernel/mm/ksm/run
 
 # 進取內存管理
-if busybox [ "$doMin" = ".on" ]; then
-	echo "#!system/bin/sh" > /data/local/tmp/99min
-	echo " " >> /data/local/tmp/99min
-	echo "sleep 30" >> /data/local/tmp/99min
-	echo 'echo "0,1,2,4,8,15" > /sys/module/lowmemorykiller/parameters/adj' >> /data/local/tmp/99min
-	echo 'echo "8099,10132,20000,20000,50000,100000" > /sys/module/lowmemorykiller/parameters/minfree' >> /data/local/tmp/99min
-	sh /data/local/tmp/99min
-fi
+#if busybox [ "$doMin" = ".on" ]; then
+#	echo "#!system/bin/sh" > /data/local/tmp/99min
+#	echo " " >> /data/local/tmp/99min
+#	echo "sleep 30" >> /data/local/tmp/99min
+#	echo 'echo "0,1,2,4,8,15" > /sys/module/lowmemorykiller/parameters/adj' >> /data/local/tmp/99min
+#	echo 'echo "8099,10132,20000,20000,50000,100000" > /sys/module/lowmemorykiller/parameters/minfree' >> /data/local/tmp/99min
+#	sh /data/local/tmp/99min
+#fi
 
 # Wifi 關屏提升效能 （會提升耗電量）
 # if busybox [ "$doWifi" = ".on" ]; then
@@ -281,7 +281,7 @@ fi
 if busybox [ "$doTouch" = ".on" ]; then 
 echo "1" > /sys/class/misc/touchwake/enabled
 fi
-# 延時值 45秒 （秒數*1000）
-# echo "45000" >/sys/class/misc/touchwake/delay
+延時值 45秒 （秒數*1000）
+echo "45000" >/sys/class/misc/touchwake/delay
 
 busybox mount -o remount,ro /system
